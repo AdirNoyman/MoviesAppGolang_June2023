@@ -2,9 +2,17 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
-import ErrorPage from './components/ErrorPage.js';
-import Home from './components/Home';
-import Movies from './components/Movies';
+
+import {
+  Genres,
+  Catalogue,
+  EditMovie,
+  ErrorPage,
+  GraphQL,
+  Home,
+  Login,
+  Movies,
+} from './components/Index';
 
 const router = createBrowserRouter([
   {
@@ -14,6 +22,11 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <Home /> },
       { path: '/movies', element: <Movies /> },
+      { path: '/genres', element: <Genres /> },
+      { path: '/manage-catalogue', element: <Catalogue /> },
+      { path: '/admin/movie/0', element: <EditMovie /> },
+      { path: '/graphql', element: <GraphQL /> },
+      { path: '/login', element: <Login /> },
     ],
   },
 ]);
