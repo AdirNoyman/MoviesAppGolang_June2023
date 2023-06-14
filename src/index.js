@@ -12,6 +12,7 @@ import {
   Home,
   Login,
   Movies,
+  Movie,
 } from './components/Index';
 
 const router = createBrowserRouter([
@@ -22,6 +23,7 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <Home /> },
       { path: '/movies', element: <Movies /> },
+      { path: '/movies/:id', element: <Movie /> },
       { path: '/genres', element: <Genres /> },
       { path: '/manage-catalogue', element: <Catalogue /> },
       { path: '/admin/movie/0', element: <EditMovie /> },

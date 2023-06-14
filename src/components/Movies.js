@@ -5,37 +5,23 @@ const Movies = () => {
   const [movies, setMovies] = useState([]);
 
   useEffect(() => {
-    let moviesList = [
-      {
-        id: 1,
-        title: 'Highlander',
-        release_date: '1986-03-07',
-        duration: 116,
-        mpaa_rating: 'R',
-        description:
-          'Lorem ipsum dolor sit amet consectetur adipisicing elit. Adipisci, velit, libero illo reiciendis quasi porro quidem cumque veniam labore iusto sit? Quas voluptatibus dolor alias hic ex veritatis nihil sequi!',
-      },
-      {
-        id: 1,
-        title: 'Highlander 2',
-        release_date: '1999-03-07',
-        duration: 116,
-        mpaa_rating: 'R',
-        description:
-          'Lorem ipsum dolor sit amet consectetur adipisicing elit. Adipisci, velit, libero illo reiciendis quasi porro quidem cumque veniam labore iusto sit? Quas voluptatibus dolor alias hic ex veritatis nihil sequi!',
-      },
-      {
-        id: 1,
-        title: 'Raiders Of The Lost Ark',
-        release_date: '1981-02-10',
-        duration: 115,
-        mpaa_rating: 'PG-30',
-        description:
-          'Lorem ipsum dolor sit amet consectetur adipisicing elit. Adipisci, velit, libero illo reiciendis quasi porro quidem cumque veniam labore iusto sit? Quas voluptatibus dolor alias hic ex veritatis nihil sequi!',
-      },
-    ];
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    headers.append('Accept', 'application/json');
 
-    setMovies(moviesList);
+    const requestOptions = {
+      method: 'GET',
+      headers: headers,
+    };
+
+    fetch(`/movies`, requestOptions)
+      .then((response) => response.json())
+      .then((data) => {
+        setMovies(data);
+      })
+      .catch((error) => {
+        console.log('Error fetching movies:', error);
+      });
   }, []);
 
   return (

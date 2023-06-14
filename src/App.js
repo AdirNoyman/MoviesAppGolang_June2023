@@ -1,6 +1,20 @@
-import { Link, Outlet } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, Outlet, useNavigate } from 'react-router-dom';
+import Alert from './components/Alert';
 
 function App() {
+  const [jwtToken, setJwtToken] = useState('');
+  const [alertMessage, setAlertMessage] = useState('');
+  const [alertClassName, setAlertClassName] = useState('d-none');
+
+  const navigate = useNavigate();
+
+  const logOut = () => {
+    setJwtToken('');
+    // redirect to login page
+    navigate('/login');
+  };
+
   return (
     <div className="container">
       <div className="row">
@@ -9,9 +23,15 @@ function App() {
           <h1 className="mt-3">Go Watch a Movie! 🍿🥤😎</h1>
         </div>
         <div className="col text-end">
-          <Link to="/login">
-            <span className="badge bg-success">Login</span>
-          </Link>
+          {jwtToken === '' ? (
+            <Link to="/login">
+              <span className="badge bg-success">Login</span>
+            </Link>
+          ) : (
+            <a href="#!" onClick={logOut}>
+              <span className="badge bg-danger">Logut</span>
+            </a>
+          )}
         </div>
         <hr className="mb-3" />
       </div>
@@ -34,29 +54,43 @@ function App() {
               >
                 Genres
               </Link>
-              <Link
-                to="admin/movie/0"
-                className="list-group-item list-group-item-action"
-              >
-                Add Movie
-              </Link>
-              <Link
-                to="/manage-catalogue"
-                className="list-group-item list-group-item-action"
-              >
-                Manage Catalogue
-              </Link>
-              <Link
-                to="/graphql"
-                className="list-group-item list-group-item-action"
-              >
-                GraphQL
-              </Link>
+              {jwtToken !== '' && (
+                <>
+                  {' '}
+                  <Link
+                    to="admin/movie/0"
+                    className="list-group-item list-group-item-action"
+                  >
+                    Add Movie
+                  </Link>
+                  <Link
+                    to="/manage-catalogue"
+                    className="list-group-item list-group-item-action"
+                  >
+                    Manage Catalogue
+                  </Link>
+                  <Link
+                    to="/graphql"
+                    className="list-group-item list-group-item-action"
+                  >
+                    GraphQL
+                  </Link>
+                </>
+              )}
             </div>
           </nav>
         </div>
         <div className="col-md-10">
-          <Outlet />
+          <Alert message={alertMessage} className={alertClassName} />
+          {/* Outlet wrapps the child components with the data and methods that are in the App.js component */}
+          <Outlet
+            context={{
+              jwtToken,
+              setJwtToken,
+              setAlertMessage,
+              setAlertClassName,
+            }}
+          />
         </div>
       </div>
     </div>
